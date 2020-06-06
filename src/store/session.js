@@ -38,5 +38,16 @@ export default {
         return Promise.reject(error);
       }
     },
+    async newGame(context, payload) {
+      try {
+        const { sessionId, isBlueSideWinning } = payload;
+        const url = `${path}/new-game`;
+        const response = await axios.post(url, { sessionId, isBlueSideWinning });
+        context.commit('setSession', response.data.session);
+        return Promise.resolve(response.data.winner);
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    },
   },
 };

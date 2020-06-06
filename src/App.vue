@@ -16,7 +16,10 @@ export default {
     const router = useRouter();
     const customClass = computed(() => {
       if (router.currentRoute.value.name === 'Dashboard') {
-        return 'dashboard-bg';
+        return 'home-bg';
+      }
+      if (router.currentRoute.value.name === 'NewGame') {
+        return 'new-game-bg';
       }
       return 'home-bg';
     });

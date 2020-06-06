@@ -38,6 +38,10 @@
       <div class="column left">
         <div class="row stats">
           <div class="column left ranks">
+            <p class="score">
+              <span class="white">Score: </span>
+              <span class="black">{{ session.score }}</span>
+            </p>
             <p class="initial-rank">
               <span class="white">Initial rank: </span>
               <span class="black">
@@ -71,6 +75,7 @@
         <a
           class="button"
           role="button"
+          @click="newGame()"
           >
           NEW GAME
         </a>
@@ -83,6 +88,7 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import formatLp from '../helpers/formatLp';
 
 export default {
   setup() {
@@ -117,21 +123,6 @@ export default {
       return newValue;
     };
 
-    const formatLp = (history) => {
-      const specialCases = [
-        'miniseries_victory',
-        'miniseries_defeat',
-        'promote',
-      ];
-      if (specialCases.includes(history.message)) {
-        return '';
-      }
-      if (history.lp >= 0) {
-        return `+${history.lp}`;
-      }
-      return history.lp;
-    };
-
     const obtainClass = (message) => {
       const victories = [
         'miniseries_victory',
@@ -145,6 +136,10 @@ export default {
       return ['defeat'];
     };
 
+    const newGame = () => {
+      router.push({ name: 'NewGame' });
+    };
+
     retrieveSession();
 
     return {
@@ -154,6 +149,7 @@ export default {
       formatMiniSeries,
       formatLp,
       obtainClass,
+      newGame,
     };
   },
 };
@@ -215,7 +211,7 @@ export default {
   font-weight: 900;
   text-transform: uppercase;
   margin: 20px auto;
-  padding: 20px 0px;
+  padding: 20px 40px;
 }
 
 .stats {
