@@ -1,0 +1,66 @@
+@import './reset.css';
+@import url(
+  'https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Muli:wght@500&display=swap'
+);
+
+html, body, #app {
+  height: 100%;
+}
+
+#application {
+  min-height: 100%;
+  background-size: contain;
+}
+
+.home-bg {
+  background: linear-gradient(90deg, #13505B 50%, #0C7489 50%);
+}
+
+.dashboard-bg {
+  background: linear-gradient(90deg, #6C3D13 50%, #B98134 50%);
+}
+
+.new-game-bg {
+  background: linear-gradient(90deg, #0075A1 50%, #811029 50%);
+}
+
+#nav {
+  padding-top: 20px;
+}
+
+#nav a {
+  text-decoration: none;
+  color: initial;
+  font-family: Muli;
+  font-size: 24px;
+  color: #fff;
+  padding-left: 20px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+.button {
+  background-color: #000;
+  font-family: Montserrat;
+  color: #fff;
+  font-size: 72px;
+  font-weight: 900;
+  text-align: center;
+  padding: 25px 150px;
+  margin: 0 auto;
+  text-decoration: none;
+  margin-bottom: 40px;
+  cursor: pointer;
+}

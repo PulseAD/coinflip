@@ -1,12 +1,11 @@
 import Vuex from 'vuex';
 
-export default Vuex.createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+import session from './session';
+
+const store = Vuex.createStore({
   modules: {
+    session,
   },
 });
+
+export default store;
