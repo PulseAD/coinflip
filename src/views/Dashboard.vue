@@ -112,9 +112,16 @@ export default {
       }
     };
 
+    const getInitialWinrate = () => {
+      if (session.value.currentRank.orderedRank < 25) {
+        return 52;
+      }
+      return 50;
+    };
+
     const winrate = computed(() => {
       const difference = session.value.maxRank.orderedRank - session.value.currentRank.orderedRank;
-      return 50 + difference * 2;
+      return getInitialWinrate() + difference * 2;
     });
 
     const formatMiniSeries = (value) => {
