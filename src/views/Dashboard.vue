@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <div class="row">
+    <div class="row" v-if="!isLoading && session">
       <div class="column left">
         <h2>{{ session.summonerName }}</h2>
         <div class="emblem-container">
@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" v-if="!isLoading && session">
       <div class="column left">
         <div class="row stats">
           <div class="column left ranks">
