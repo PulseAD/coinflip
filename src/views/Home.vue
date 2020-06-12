@@ -1,54 +1,51 @@
 <template>
   <div class="home">
-    <div class="row">
-      <div class="column left">
-        <div class="img-container">
-          <img
-            src="../assets/CHALLENGER.png"
-            alt="Challenger emblem"
-            title="Challenger emblem"
-          />
-        </div>
-      </div>
-      <div class="column right">
-        <h1>REACH CHALLENGER</h1>
-        <p>Retrieve your League of Legends account with your current rank</p>
-        <p>Before starting the game you will need to choose between red and blue side</p>
-        <p>A side will be randomly selected as winner</p>
-        <p>Try to climb the ladder starting at your current rank</p>
-        <p>As you climb you will be able to spam games more and you will climb more easily</p>
+    <div class="title-container">
+      <h1>REACH CHALLENGER</h1>
+      <div class="img-container">
+        <img
+          src="../assets/CHALLENGER.png"
+          alt="Challenger emblem"
+          title="Challenger emblem"
+        />
       </div>
     </div>
-    <form class="row" @submit.prevent="validate()" autocomplete="off">
-      <div class="column left">
-        <div class="form-container">
-          <div class="input-container username">
-            <label for="username">Username</label>
-            <input id="username" v-model="username" type="text" />
-          </div>
-          <div class="input-container server">
-            <label for="server">Server</label>
-            <select id="server" v-model="server">
-              <option v-for="server in availableServers" :key="server.value" :value="server.value">
-                {{ server.name }}
-              </option>
-            </select>
-          </div>
+    <div class="form-container">
+      <form @submit.prevent="validate()" autocomplete="off">
+        <div class="error-container">
+          <p v-if="errorMessage">{{ errorMessage }}</p>
         </div>
-      </div>
-      <div class="column right">
-        <a
-          class="button"
-          role="button"
-          :class="{ disabled: isDisabled }"
-          @click="validate()"
-          >
-          PLAY
-        </a>
-      </div>
-    </form>
-    <div class="error-container">
-      <p v-if="errorMessage"><span>{{ errorMessage }}</span></p>
+        <div class="input-container username">
+          <label for="username">Username</label>
+          <input id="username" v-model="username" type="text" />
+        </div>
+        <div class="input-container server">
+          <label for="server">Server</label>
+          <select id="server" v-model="server">
+            <option v-for="server in availableServers" :key="server.value" :value="server.value">
+              {{ server.name }}
+            </option>
+          </select>
+        </div>
+        <div class="button-container">
+          <a
+            class="button"
+            role="button"
+            :class="{ disabled: isDisabled }"
+            @click="validate()"
+            >
+            PLAY
+          </a>
+        </div>
+        <p class="existing-session">I already have a session!</p>
+      </form>
+    </div>
+    <div class="text-container">
+      <p>Retrieve your League of Legends account with your current rank</p>
+      <p>Before starting the game you will need to choose between red and blue side</p>
+      <p>A side will be randomly selected as winner</p>
+      <p>Try to climb the ladder starting at your current rank</p>
+      <p>As you climb you will be able to spam games more and you will climb more easily</p>
     </div>
   </div>
 </template>
@@ -77,7 +74,7 @@ export default {
       { name: 'KR', value: 'kr' },
     ]);
 
-    const retrieveSession = async () => {
+    const createNewSession = async () => {
       try {
         await store.dispatch('fetchSession', { server: server.value, username: username.value });
         const session = store.getters.getSession;
@@ -91,7 +88,7 @@ export default {
       if (isDisabled.value) {
         return;
       }
-      retrieveSession();
+      createNewSession();
     };
 
     return {
@@ -108,29 +105,59 @@ export default {
 
 <style scoped>
 
+.home {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-rows: repeat(2, 1fr); */
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.title-container {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.form-container {
+  grid-area: 1 / 2 / 3 / 3;
+}
+
+.text-container {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
 .img-container {
-  margin-top: 140px;
-  margin-bottom: 60px;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
 .img-container img{
   display: block;
   margin: 0 auto;
-  max-width: 400px;
+  max-width: 300px;
 }
 
 .form-container {
   font-family: Muli;
-  display: flex;
   margin: 0 auto;
-  margin-top: 20px;
-  margin-bottom: 40px;
+}
+
+.form-container form {
+  margin-top: 20%;
+}
+
+.existing-session {
+  margin-top: 80px;
+  color: #fff;
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1.5vw;
 }
 
 .input-container {
-  background-color: #D7D9CE;
+  background-color: #fff;
   padding: 10px;
-  margin: 0px 5px;
+  margin: 60px 0px;
 }
 
 .input-container label {
@@ -140,26 +167,31 @@ export default {
 }
 
 .input-container input, select {
-  background-color: #D7D9CE;
+  background-color: #fff;
   border:0;
-  font-size: 36px;
+  font-size: 3vw;
+  width: 100%;
 }
 
 h1 {
   font-family: Montserrat;
-  font-size: 48px;
+  font-size: 3.5vw;
   color: #fff;
   font-weight: 900;
   text-align: center;
   margin-top: 70px;
-  margin-bottom: 80px;
+  margin-bottom: 30px;
 }
 
-p {
+.text-container p {
   margin: 20px 50px;
   font-family: Muli;
-  color: white;
-  font-size: 24px;
+  color: #fff;
+  font-size: 1.5vw;
+}
+
+.button-container {
+  margin-top: 100px;
 }
 
 .disabled {
@@ -169,13 +201,75 @@ p {
 
 .error-container p{
   color: #fff;
-  font-size: 36px;
+  font-size: 1.5vw;
   text-align: center;
+  background-color: #811029;
+  padding: 15px 0px;
 }
 
 .error-container p span {
   padding: 10px 100px;
-  background-color: #811029;
+}
+
+@media only screen and (max-width: 768px) {
+  .home {
+    display: initial;
+  }
+
+  .img-container img{
+    max-width: 40vw;
+  }
+
+  .form-container form {
+    margin-top: 0px;
+  }
+
+  .error-container p {
+    font-size: 3.5vw;
+  }
+
+  .text-container p {
+    font-size: 3.5vw;
+  }
+
+  p.existing-session {
+    font-size: 3.5vw;
+    margin-top: 20px;
+    margin-bottom: 60px;
+  }
+
+  .button {
+    font-size: 12vw;
+  }
+
+  .input-container input, select {
+    font-size: 6vw;
+  }
+
+  h1 {
+    margin-top: 20px;
+    font-size: 6vw;
+  }
+
+  form {
+    padding: 0px 20px;
+  }
+
+  .input-container {
+    margin: 30px 0px;
+  }
+
+  .button-container {
+    margin-top: 30px;
+  }
+
+  #nav a{
+    font-size: 12px;
+  }
+
+  .text-container {
+    padding-bottom: 20px;
+  }
 }
 
 </style>
