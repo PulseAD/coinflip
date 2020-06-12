@@ -17,7 +17,7 @@ export default {
     },
   },
   actions: {
-    async fetchSession(context, payload) {
+    async createSession(context, payload) {
       try {
         const { server, username } = payload;
         const url = `${path}/new-session`;

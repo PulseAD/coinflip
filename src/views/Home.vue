@@ -15,17 +15,21 @@
         <div class="error-container">
           <p v-if="errorMessage">{{ errorMessage }}</p>
         </div>
-        <div class="input-container username">
+        <div class="input-container username" v-if="!isRetrievingSession">
           <label for="username">Username</label>
           <input id="username" v-model="username" type="text" />
         </div>
-        <div class="input-container server">
+        <div class="input-container server" v-if="!isRetrievingSession">
           <label for="server">Server</label>
           <select id="server" v-model="server">
             <option v-for="server in availableServers" :key="server.value" :value="server.value">
               {{ server.name }}
             </option>
           </select>
+        </div>
+        <div class="input-container" v-if="isRetrievingSession">
+          <label for="sessionId">Session Id</label>
+          <input id="sessionId" v-model="sessionId" type="text" />
         </div>
         <div class="button-container">
           <a
@@ -34,10 +38,13 @@
             :class="{ disabled: isDisabled }"
             @click="validate()"
             >
-            PLAY
+            <div class="small-loader" v-if="isLoading"></div>
+            <template v-else>PLAY</template>
           </a>
         </div>
-        <p class="existing-session">I already have a session!</p>
+        <p class="existing-session" @click="toggleIsRetrievingSession()">
+          {{ isRetrievingSession ? 'Create a new session' : 'I already have a session!' }}
+        </p>
       </form>
     </div>
     <div class="text-container">
@@ -60,10 +67,19 @@ export default {
   setup() {
     const server = ref('euw1');
     const username = ref('');
-    const isDisabled = computed(() => username.value.length < 1);
+    const sessionId = ref('');
     const router = useRouter();
     const store = useStore();
     const errorMessage = ref(null);
+    const isRetrievingSession = ref(false);
+    const isLoading = ref(false);
+
+    const isDisabled = computed(() => {
+      if (isRetrievingSession.value) {
+        return sessionId.value.length < 5;
+      }
+      return username.value.length < 1;
+    });
 
     const availableServers = ref([
       { name: 'EUW', value: 'euw1' },
@@ -76,11 +92,27 @@ export default {
 
     const createNewSession = async () => {
       try {
-        await store.dispatch('fetchSession', { server: server.value, username: username.value });
+        isLoading.value = true;
+        await store.dispatch('createSession', { server: server.value, username: username.value });
+        isLoading.value = false;
         const session = store.getters.getSession;
         router.push({ name: 'Dashboard', params: { sessionId: session._id } });
       } catch (error) {
+        isLoading.value = false;
         errorMessage.value = 'That username was not found on that server';
+      }
+    };
+
+    const retrieveSession = async () => {
+      try {
+        isLoading.value = true;
+        await store.dispatch('retrieveSession', sessionId.value);
+        isLoading.value = false;
+        const session = store.getters.getSession;
+        router.push({ name: 'Dashboard', params: { sessionId: session._id } });
+      } catch (error) {
+        isLoading.value = false;
+        errorMessage.value = 'We were not able to retrieve that session';
       }
     };
 
@@ -88,7 +120,15 @@ export default {
       if (isDisabled.value) {
         return;
       }
+      if (isRetrievingSession.value) {
+        retrieveSession();
+        return;
+      }
       createNewSession();
+    };
+
+    const toggleIsRetrievingSession = () => {
+      isRetrievingSession.value = !isRetrievingSession.value;
     };
 
     return {
@@ -98,6 +138,10 @@ export default {
       validate,
       availableServers,
       errorMessage,
+      isRetrievingSession,
+      toggleIsRetrievingSession,
+      sessionId,
+      isLoading,
     };
   },
 };
@@ -209,6 +253,10 @@ h1 {
 
 .error-container p span {
   padding: 10px 100px;
+}
+
+.small-loader {
+  margin: 0 auto;
 }
 
 @media only screen and (max-width: 768px) {
