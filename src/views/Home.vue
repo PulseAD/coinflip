@@ -217,7 +217,7 @@ h1 {
   }
 
   .img-container img{
-    max-width: 40vw;
+    max-width: 30vw;
   }
 
   .form-container form {
