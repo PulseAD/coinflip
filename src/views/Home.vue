@@ -89,6 +89,11 @@ export default {
       { name: 'TR', value: 'tr1' },
       { name: 'RU', value: 'ru' },
       { name: 'KR', value: 'kr' },
+      { name: 'JP', value: 'jp1' },
+      { name: 'LA1', value: 'la1' },
+      { name: 'LA2', value: 'la2' },
+      { name: 'OCE', value: 'oc1' },
+      { name: 'BR', value: 'br1' },
     ]);
 
     const createNewSession = async () => {
