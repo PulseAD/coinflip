@@ -25,6 +25,10 @@
       <span class="white">New game winrate: </span>
       <span>{{ winrate }} %</span>
     </p>
+    <p class="session-id">
+      <span class="white">Session Id:</span>
+      <span>{{ session._id }}</span>
+    </p>
   </div>
 </template>
 
@@ -63,10 +67,18 @@ export default {
   line-height: 150%;
 }
 
+.session-id {
+  font-size: 2vw;
+}
+
 @media only screen and (min-width: 768px) {
   .stats {
     grid-area: 4 / 2 / 5 / 3;
     font-size: 1.5vw;
+  }
+
+  .session-id{
+    font-size: 1vw;
   }
 }
 </style>

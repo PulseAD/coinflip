@@ -3,8 +3,7 @@
     <div class="before-game" v-if="!isGameFinished">
       <div v-if="!isLoading">
         <div>
-          <h1>CHOOSE</h1>
-          <h1>YOUR SIDE</h1>
+          <h1>CHOOSE <br /> YOUR SIDE</h1>
         </div>
         <div class="row">
           <div class="column left" @click="newGame(true)">
@@ -24,7 +23,7 @@
       <div class="loader centered" v-else></div>
     </div>
     <div class="after-game" v-else>
-        <h2>{{ getLastGame.message }}</h2>
+        <h1>{{ getLastGame.message }}</h1>
         <div class="img-winner">
           <img
             :src="require(`@/assets/${getWinnerImg}.png`)"
@@ -32,14 +31,16 @@
             title="winner-side"
           />
         </div>
-        <h2>{{ formatLp(getLastGame, true) }}</h2>
-        <a
-          class="button"
-          role="button"
-          @click="next()"
-          >
-          NEXT
-        </a>
+        <h1>{{ formatLp(getLastGame, true) }}</h1>
+        <div class="button-container">
+          <a
+            class="button"
+            role="button"
+            @click="next()"
+            >
+            NEXT
+          </a>
+        </div>
     </div>
   </div>
 </template>
@@ -113,30 +114,77 @@ export default {
 .new-game {
   color: #fff;
   font-family: Montserrat;
-  font-size: 64px;
+  font-size: 4.5vw;
   text-align: center;
 }
 
-.column.left .img-container {
-  margin-top: 134px;
+h1 {
+  font-size: 8vw;
+  margin-top: 20px;
 }
 
 .row {
   cursor: pointer;
+  margin-top: 14vw;
 }
 
-.after-game h2 {
-  font-size: 96px;
+.after-game h1 {
   text-transform: uppercase;
   margin: 60px;
 }
 
-.img-winner img{
-  height: 300px;
+.img-container img{
+  height: 30vw;
 }
 
-.centered {
-  margin: 0 auto;
-  margin-top: 100px;
+.img-winner img{
+  height: 20vw;
+}
+
+.button-container {
+  margin: 0px 20vw;
+}
+
+@media only screen and (max-width: 900px) {
+  h2 {
+    margin: 10px;
+  }
+
+  .row {
+    display: block;
+    margin-top: 20px;
+  }
+
+  .column {
+    padding: 20px;
+  }
+
+  .img-container img{
+    height: 40vw;
+  }
+
+  .img-winner img{
+    height: 50vw;
+  }
+
+  .button-container .button{
+    font-size: 8vw;
+    padding: 15px 0px;
+  }
+
+  .after-game h1 {
+    font-size: 12vw;
+    margin-top: 30px;
+    margin-bottom: 70px;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  h1 {
+    font-size: 6vw;
+  }
+  .row {
+    margin-top: 50px;
+  }
 }
 </style>

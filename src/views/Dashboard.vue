@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard" v-if="!isLoading">
     <SummonerInfo :session="session" />
     <p class="record">
       {{ session.winNumber }}W - {{ session.looseNumber }}L
@@ -16,6 +16,7 @@
       </a>
     </div>
   </div>
+  <div class="loader centered" v-else></div>
 </template>
 
 <script>
