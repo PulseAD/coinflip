@@ -48,11 +48,12 @@
       </form>
     </div>
     <div class="text-container">
-      <p>Retrieve your League of Legends account with your current rank</p>
-      <p>Before starting the game you will need to choose between red and blue side</p>
+      <p>Retrieve your League of Legends account with your current soloQ rank</p>
+      <p>Play games choosing between red and blue side</p>
       <p>A side will be randomly selected as winner</p>
-      <p>Try to climb the ladder starting at your current rank</p>
-      <p>As you climb you will be able to spam games more and you will climb more easily</p>
+      <p>Try to be lucky and climb the ladder</p>
+      <p>Once Master+, you unlock Grand Master by reaching 350 LP and Challenger with 700 LP</p>
+      <p>Good luck!</p>
     </div>
   </div>
 </template>
