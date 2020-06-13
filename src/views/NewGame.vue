@@ -152,7 +152,7 @@ h1 {
 
   .row {
     display: block;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .column {
@@ -174,8 +174,8 @@ h1 {
 
   .after-game h1 {
     font-size: 12vw;
-    margin-top: 30px;
-    margin-bottom: 70px;
+    margin-top: 20px;
+    margin-bottom: 50px;
   }
 }
 
