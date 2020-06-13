@@ -1,85 +1,19 @@
 <template>
   <div class="dashboard">
-    <div class="row" v-if="!isLoading && session">
-      <div class="column left">
-        <h2>{{ session.summonerName }}</h2>
-        <div class="emblem-container">
-          <img
-            :src="require(`@/assets/${session.currentRank.tier}.png`)"
-            alt="emblem"
-            title="emblem"
-          />
-        </div>
-        <p class="rank">
-          {{ session.currentRank.tier }} {{ session.currentRank.rank }}
-        </p>
-        <p class="lp white" v-if="!session.currentRank.miniSeries">
-          {{ session.currentRank.leaguePoints }} LP
-        </p>
-        <p class="lp white mini-series" v-else>
-          {{ formatMiniSeries(session.currentRank.miniSeries.progress) }}
-        </p>
-      </div>
-      <div class="column right">
-        <h2>LAST GAMES</h2>
-        <div class="history">
-          <div
-            class="history-element"
-            v-for="history in session.messageHistory"
-            :key="history._id"
-            :class="obtainClass(history.message)"
-            >
-            {{ history.message }} {{ formatLp(history) }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row" v-if="!isLoading && session">
-      <div class="column left">
-        <div class="row stats">
-          <div class="column left ranks">
-            <p class="score">
-              <span class="white">Score: </span>
-              <span class="black">{{ session.score }}</span>
-            </p>
-            <p class="initial-rank">
-              <span class="white">Initial rank: </span>
-              <span class="black">
-                {{ session.initialRank.tier }}
-                {{ session.initialRank.rank }}
-              </span>
-              <span class="white">
-                {{ ` ${session.initialRank.leaguePoints}` }} LP
-              </span>
-            </p>
-            <p class="highest-rank">
-              <span class="white">Hightest rank: </span>
-              <span class="black">
-                {{ session.maxRank.tier }}
-                {{ session.maxRank.rank }}
-              </span>
-            </p>
-            <p class="winrate">
-              <span class="white">New game winrate: </span>
-              <span>{{ winrate }} %</span>
-            </p>
-          </div>
-          <div class="column right">
-            <p class="record">
-              {{ session.winNumber }}W - {{ session.looseNumber }}L
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="column right">
-        <a
-          class="button"
-          role="button"
-          @click="newGame()"
-          >
-          NEW GAME
-        </a>
-      </div>
+    <SummonerInfo :session="session" />
+    <p class="record">
+      {{ session.winNumber }}W - {{ session.looseNumber }}L
+    </p>
+    <Statistics :session="session" />
+    <GameHistory :session="session" />
+    <div class="button-container">
+      <a
+        class="button"
+        role="button"
+        @click="newGame()"
+        >
+        NEW GAME
+      </a>
     </div>
   </div>
 </template>
@@ -88,9 +22,12 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import formatLp from '../helpers/formatLp';
+import SummonerInfo from '../components/SummonerInfo.vue';
+import Statistics from '../components/Statistics.vue';
+import GameHistory from '../components/GameHistory.vue';
 
 export default {
+  components: { SummonerInfo, Statistics, GameHistory },
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -112,37 +49,6 @@ export default {
       }
     };
 
-    const getInitialWinrate = () => {
-      if (session.value.currentRank.orderedRank < 25) {
-        return 52;
-      }
-      return 50;
-    };
-
-    const winrate = computed(() => {
-      const difference = session.value.maxRank.orderedRank - session.value.currentRank.orderedRank;
-      return getInitialWinrate() + difference * 2;
-    });
-
-    const formatMiniSeries = (value) => {
-      let newValue = value;
-      newValue = newValue.replace(/N/g, '-');
-      return newValue;
-    };
-
-    const obtainClass = (message) => {
-      const victories = [
-        'miniseries_victory',
-        'victory',
-        'promote',
-        'new_miniseries',
-      ];
-      if (victories.includes(message)) {
-        return ['victory'];
-      }
-      return ['defeat'];
-    };
-
     const newGame = () => {
       router.push({ name: 'NewGame' });
     };
@@ -152,10 +58,6 @@ export default {
     return {
       session,
       isLoading,
-      winrate,
-      formatMiniSeries,
-      formatLp,
-      obtainClass,
       newGame,
     };
   },
@@ -163,97 +65,54 @@ export default {
 </script>
 
 <style scoped>
-.column.left h2 {
-  margin-top: 40px;
-  color: #fff;
-  font-size: 72px;
-  text-align: center;
-  font-family: 'Montserrat';
-  font-weight: 900;
-}
 
-.emblem-container {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.emblem-container img{
-  display: block;
-  margin: 0 auto;
-  max-width: 400px;
-}
-
-.rank,.lp{
-  font-family: 'Montserrat';
-  font-weight: 900;
-  font-size: 64px;
-  text-align: center;
-}
-
-.white {
-  color: #fff;
-}
-
-.column.right h2 {
-  margin-top: 40px;
-  margin-bottom: 40px;
-  color: #fff;
-  font-size: 48px;
-  text-align: center;
-  font-family: 'Montserrat';
-  font-weight: 900;
-}
-
-.history {
-  margin: 0px auto;
-  max-width: 800px;
-}
-
-.history-element {
-  display: block;
-  color: #fff;
-  font-size: 48px;
-  text-align: center;
-  font-family: 'Montserrat';
-  font-weight: 900;
-  text-transform: uppercase;
-  margin: 20px auto;
-  padding: 20px 40px;
-}
-
-.stats {
-  margin: 0 auto;
-  margin-top: 40px;
-  max-width: 700px;
-}
-
-.ranks {
-  font-size: 18px;
-  font-family: 'Muli';
-  font-weight: 600;
-  letter-spacing: 1.2px;
-  line-height: 150%;
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-rows: repeat(6, 1fr); */
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
 
 .record {
-  font-size: 36px;
+  grid-area: 3 / 2 / 4 / 3;
+  font-size: 4vw;
   font-family: 'Montserrat';
   font-weight: 900;
-  text-align: right;
+  text-align: center;
 }
 
-.mini-series {
-  letter-spacing: 10px;
-  font-family: 'Muli';
-  font-weight: 600;
-  font-size: 55px;
+.button-container {
+  grid-area: 5 / 1 / 6 / 3;
+  margin: 10px 5vw;
 }
 
-.defeat {
-  background-color: #8E3D3D;
+.button-container .button {
+  font-size: 8vw;
+  padding: 15px 0px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.victory {
-  background-color: #3E9264;
+@media only screen and (min-width: 768px) {
+  .dashboard {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .button-container {
+    grid-area: 4 / 3 / 5 / 5;
+    margin: 10px 7vw;
+  }
+
+  .button-container .button {
+    font-size: 4vw;
+    padding: 40px 0px;
+  }
+
+  .record {
+    padding-top: 3vw;
+    grid-area: 4 / 1 / 5 / 2;
+    font-size: 2vw;
+  }
 }
+
 </style>
