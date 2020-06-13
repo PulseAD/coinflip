@@ -88,7 +88,7 @@ h2 {
   .tier-rank {
     grid-area: 3 / 1 / 4 / 3;
     font-size: 3.5vw;
-    margin-bottom: 5vw;
+    margin-bottom: 3vw;
   }
 
   .emblem-container img{

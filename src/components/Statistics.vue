@@ -74,7 +74,7 @@ export default {
 @media only screen and (min-width: 768px) {
   .stats {
     grid-area: 4 / 2 / 5 / 3;
-    font-size: 1.5vw;
+    font-size: 1.2vw;
   }
 
   .session-id{
