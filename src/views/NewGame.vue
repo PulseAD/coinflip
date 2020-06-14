@@ -119,8 +119,12 @@ export default {
 }
 
 h1 {
-  font-size: 8vw;
+  font-size: 60px;
   margin-top: 20px;
+}
+
+h2 {
+  font-size: 40px;
 }
 
 .row {
@@ -146,7 +150,13 @@ h1 {
 }
 
 @media only screen and (max-width: 900px) {
+
+  h1 {
+    font-size: 8vw;
+  }
+
   h2 {
+    font-size: 6vw;
     margin: 10px;
   }
 
@@ -173,16 +183,12 @@ h1 {
   }
 
   .after-game h1 {
-    font-size: 12vw;
     margin-top: 20px;
     margin-bottom: 50px;
   }
 }
 
 @media only screen and (min-width: 1400px) {
-  h1 {
-    font-size: 6vw;
-  }
   .row {
     margin-top: 50px;
   }

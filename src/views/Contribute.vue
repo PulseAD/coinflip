@@ -28,7 +28,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
   padding-bottom: 20px;
   font-family: 'Muli';
