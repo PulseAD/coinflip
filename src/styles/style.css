@@ -24,6 +24,10 @@ html, body, #app {
   background: linear-gradient(90deg, #0075A1 50%, #811029 50%);
 }
 
+.leaderboard-bg {
+  background: #fff;
+}
+
 #nav {
   padding-top: 20px;
 }
@@ -35,6 +39,10 @@ html, body, #app {
   font-size: 24px;
   color: #fff;
   padding-left: 20px;
+}
+
+#nav a.black {
+  color: #000;
 }
 
 .row {
@@ -55,7 +63,7 @@ html, body, #app {
   background-color: #000;
   font-family: Montserrat;
   color: #fff;
-  font-size: 5vw;
+  font-size: 3vw;
   font-weight: 900;
   text-align: center;
   display: block;

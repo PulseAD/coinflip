@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Dashboard from '../views/Dashboard.vue';
 import NewGame from '../views/NewGame.vue';
+import Leaderboard from '../views/Leaderboard.vue';
+import Contribute from '../views/Contribute.vue';
 
 const routes = [
   {
@@ -18,6 +20,16 @@ const routes = [
     path: '/new-game',
     name: 'NewGame',
     component: NewGame,
+  },
+  {
+    path: '/leaderboard',
+    name: 'Leaderboard',
+    component: Leaderboard,
+  },
+  {
+    path: '/contribute',
+    name: 'Contribute',
+    component: Contribute,
   },
 ];
 
