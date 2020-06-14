@@ -8,6 +8,8 @@
       <li>Put the application on a real server to make it available 24/24</li>
       <li>Add translations for more languages</li>
       <li>Add more rewards</li>
+      <li>Retrieve Challenger and Grand Master caps from the Riot API</li>
+      <li>Allow players in Challenger to climb until Rank 1</li>
       <li>Implement mini games which could increase your winrate</li>
       <li>Add context sentences after each game</li>
       </ul>
